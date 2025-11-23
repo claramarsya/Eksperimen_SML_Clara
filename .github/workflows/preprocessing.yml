@@ -1,0 +1,33 @@
+name: Run Data Preprocessing
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  preprocessing-job:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+
+    - name: Install Dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Run Preprocessing Script
+      run: |
+        python preprocessing/automate_Nama-siswa.py
+
+    - name: Upload Output Dataset
+      uses: actions/upload-artifact@v3
+      with:
+        name: processed-dataset
+        path: preprocessing/dataset_cleaned.csv
